@@ -1,0 +1,53 @@
+{
+    "name": "{{ project_name | lower | replace(' ', '-') }}/{{ project_name | lower | replace(' ', '-') }}",
+    "description": "{{ description }}",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^{{ php_version }}",
+        "vlucas/phpdotenv": "^5.6",
+        "monolog/monolog": "^3.7"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpstan/phpstan": "^1.12",
+{%- if test_framework == "pest" %}
+        "pestphp/pest": "^3.7"
+{%- else %}
+        "phpunit/phpunit": "^11.5"
+{%- endif %}
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "serve": "php -S localhost:8000 -t public",
+        "format": "php-cs-fixer fix",
+        "format:check": "php-cs-fixer fix --dry-run --diff",
+        "analyse": "phpstan analyse",
+{%- if test_framework == "pest" %}
+        "test": "pest"
+{%- else %}
+        "test": "phpunit"
+{%- endif %}
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "{{ php_version }}.99"
+        }{% if test_framework == "pest" %},
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+{%- endif %}
+    },
+    "minimum-stability": "stable"
+}

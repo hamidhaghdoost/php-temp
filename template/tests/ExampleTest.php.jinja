@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+{% if test_framework == "pest" -%}
+test('example', function () {
+    expect(true)->toBeTrue();
+});
+{%- else -%}
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
+
+final class ExampleTest extends TestCase
+{
+    public function testExample(): void
+    {
+        $this->assertTrue(true);
+    }
+}
+{%- endif %}

@@ -1,0 +1,29 @@
+- For every system-design decision, make sure there is a clear reason.
+- Keep all docs short and clear, not long.
+- Run `composer format`, `composer analyse`, and `composer test` before considering a change done.
+- This project targets PHP {{ php_version }}, tested with {{ test_framework }}.
+- Never add a package to `composer.json` without it actually resolving via `composer require`; a failed resolve means the package name is wrong, not a retry-with-different-syntax situation.
+- Never hardcode credentials or API keys in `src/`; they go in `.env` (git-ignored) and are read via `getenv()`/`$_ENV`.
+- New behavior needs a new test in `tests/` — running existing tests isn't enough to call something done.
+- Use the Composer scripts (`composer format`/`analyse`/`test`), not `php-cs-fixer`/`phpstan`/`phpunit` directly, so tool config stays the single source of truth.
+- Keep changes scoped to what was asked; don't refactor unrelated code in the same change.
+
+## Structure
+
+- `src/` — application code.
+- `public/` — web root; the only directory served publicly.
+- `config/` — non-secret application configuration.
+- `tests/` — test code ({{ test_framework }}).
+- `bin/` — CLI entry points / admin commands.
+- `var/` — cache and logs; disposable, git-ignored.
+- `.env` / `.env.example` — environment-specific config and secrets.
+- `composer.json` — dependencies and scripts (`format`, `analyse`, `test`).
+
+## 12-Factor rules (the ones that apply here)
+
+- **Dependencies** — declare everything in `composer.json`; never assume a system-installed package exists.
+- **Config** — read config from environment variables (`.env`, `getenv()`), never hardcode secrets or environment-specific values in `src/`.
+- **Dev/prod parity** — don't special-case "dev" vs "prod" behavior beyond config values; same code path everywhere (this is what the devcontainer/Nix setup exists to guarantee).
+- **Logs** — log via `config/logger.php` (Monolog); it writes to stdout by default, or `var/log/app.log` if `LOG_CHANNEL=file`. Never write logs directly from `src/`.
+- **Admin processes** — one-off/management tasks are commands under `bin/`, not ad hoc scripts.
+- **Disposability** — anything in `var/` is a cache, safe to delete and regenerate; never treat it as the source of truth.

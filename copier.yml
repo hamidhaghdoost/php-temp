@@ -1,0 +1,30 @@
+_subdirectory: template
+
+_exclude:
+  - "{% if test_framework != 'pest' %}tests/Pest.php{% endif %}"
+
+project_name:
+  type: str
+  help: "Project name (used in composer.json and README)"
+  default: my-php-app
+
+description:
+  type: str
+  help: "Short project description"
+  default: "A PHP project generated from the AI-assisted development template."
+
+php_version:
+  type: str
+  help: "PHP version to target"
+  choices:
+    - "8.3"
+    - "8.4"
+  default: "8.3"
+
+test_framework:
+  type: str
+  help: "Which testing framework do you want?"
+  choices:
+    - phpunit
+    - pest
+  default: phpunit

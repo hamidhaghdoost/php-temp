@@ -1,0 +1,16 @@
+{
+  "name": "{{ project_name }}",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "direnv allow && nix develop --command composer install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "junstyle.php-cs-fixer"
+      ]
+    }
+  }
+}

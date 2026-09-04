@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "{{ php_version }}"
+          coverage: none
+
+      - uses: ramsey/composer-install@v3
+
+      - name: Format check (PHP-CS-Fixer)
+        run: composer format:check
+
+      - name: Static analysis (PHPStan)
+        run: composer analyse
+
+      - name: Tests ({{ test_framework }})
+        run: composer test

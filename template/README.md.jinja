@@ -1,0 +1,21 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Getting started
+
+Open in VS Code and "Reopen in Container" (or run `nix develop` if you have Nix
+installed), then:
+
+```sh
+composer install
+composer test
+```
+
+## Checks
+
+- `composer format` / `composer format:check` — PHP-CS-Fixer
+- `composer analyse` — PHPStan
+- `composer test` — {{ test_framework }}
+
+See `AGENTS.md` for AI-assistant rules.
