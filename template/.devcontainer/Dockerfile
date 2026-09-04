@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl ca-certificates xz-utils git sudo direnv \
+    && apt-get install -y --no-install-recommends curl ca-certificates xz-utils git openssh-client sudo direnv \
     && rm -rf /var/lib/apt/lists/*
 
 # System-wide, so it applies no matter which user (root or the container user)
